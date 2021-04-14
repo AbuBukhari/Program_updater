@@ -15,7 +15,7 @@ namespace Updater
             string program_name = "" + ".exe";
             string program_version = "";
             string progam_newest_version = "";
-            string Downloadlink = "";
+            string Downloadlink = ""; // DONT PASTE YOUR DOWNLOAD LINK HERE!! 
 
 
             Console.Title = "Program Updater";
@@ -25,7 +25,7 @@ namespace Updater
             try
             {
                 var req = new WebClient();
-                Downloadlink = req.DownloadString("PASTEBIN LINK OR SOMETHING");
+                Downloadlink = req.DownloadString("PASTEBIN LINK OR SOMETHING"); // MAKE A PASTEBIN AND PUT THERE YOUR DOWNLOAD LINK SO YOU CAN CHANGE IT
             }
             catch(Exception err)
             {
