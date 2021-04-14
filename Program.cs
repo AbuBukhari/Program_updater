@@ -15,15 +15,29 @@ namespace Updater
             string program_name = "" + ".exe";
             string program_version = "";
             string progam_newest_version = "";
+            string Downloadlink = "";
 
 
             Console.Title = "Program Updater";
+
+
+            // trying to get your download link 
+            try
+            {
+                var req = new WebClient();
+                Downloadlink = req.DownloadString("PASTEBIN LINK OR SOMETHING");
+            }
+            catch(Exception err)
+            {
+                Console.WriteLine(err);
+            }
             //Check if file exist
             if(!File.Exists(program_name))
             {
                 var req = new WebClient();
-                req.DownloadFile("FILE DOWNLOAD LINK", "FILE PLACE");
+                req.DownloadFile(Downloadlink, "FILE PLACE");
             }
+
             // trying to get your pastebin link
             try
             {
@@ -55,7 +69,7 @@ namespace Updater
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Downloading update...");
                 var req = new WebClient();
-                req.DownloadFile("FILE DOWNLOAD LINK", "FILE PLACE");
+                req.DownloadFile(Downloadlink, "FILE PLACE");
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Completed...");
             }
