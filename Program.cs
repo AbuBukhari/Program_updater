@@ -1,80 +1,67 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Net;
+using System.Reflection;
 using System.IO;
 using System.Diagnostics;
-
 
 namespace Updater
 {
     class Program
     {
-        
+      public static  string download = "";
         static void Main(string[] args)
         {
-            // Strings for your files
-            string program_name = "" + ".exe";
-            string program_version = "";
-            string progam_newest_version = "";
-            string Downloadlink = ""; // DONT PASTE YOUR DOWNLOAD LINK HERE!! 
-
-
-            Console.Title = "Program Updater";
-
-
-            // trying to get your download link 
-            try
+            Console.Title = "Updater";
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Checking if process is running..");
+            if (Process.GetProcessesByName($"PUT YOUR NAME EXE HERE.exe").Length > 0)
             {
-                var req = new WebClient();
-                Downloadlink = req.DownloadString("PASTEBIN LINK OR SOMETHING"); // MAKE A PASTEBIN AND PUT THERE YOUR DOWNLOAD LINK SO YOU CAN CHANGE IT
+                Console.WriteLine("Program is running! Please close it");
+               Console.ReadLine();
             }
-            catch(Exception err)
+            var web = new WebClient();
+            string version = web.DownloadString("YOUR NEW VERSION LINK");
+            if (File.Exists("Atom Selfbot.exe"))
             {
-                Console.WriteLine(err);
-            }
-            //Check if file exist
-            if(!File.Exists(program_name))
-            {
-                var req = new WebClient();
-                req.DownloadFile(Downloadlink, "FILE PLACE");
-            }
-
-            // trying to get your pastebin link
-            try
-            {
-                var req = new WebClient();
-                progam_newest_version = req.DownloadString("PASTEBIN LINK OR SOMETHING");
-            }
-            catch(Exception err)
-            {
-                Console.WriteLine(err);
-            }
-            // getting your program version
-            try
-            {
-                var versionInfo = FileVersionInfo.GetVersionInfo("PATH TO YOUR FILE");
-                program_version = versionInfo.FileVersion;
-            }
-            catch (Exception err)
-            {
-                Console.WriteLine(err);
-            }
-            // if program_version is the same as program_newest_version its completed.
-            if(program_version == progam_newest_version)
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Up to date!");
+                string file = Directory.GetCurrentDirectory() + "/" + Path.GetFileName(download);
+                string current_version = AssemblyName.GetAssemblyName("Atom Selfbot.exe").Version.ToString();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Newer version is {version}");
+                Console.WriteLine($"Current version is {current_version}");
+                if (current_version == version)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("No update!");
+                    Console.Title = "No update available!!";
+                    Console.WriteLine("You can exit this tool now! - Updater created by Vanix#9999");
+                    Console.ReadLine();
+                    Environment.Exit(1);
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Downloading..");
+                    web.DownloadFileAsync(new System.Uri(download), file);
+                }
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Downloading update...");
-                var req = new WebClient();
-                req.DownloadFile(Downloadlink, "FILE PLACE");
+                Console.WriteLine("Cant find the file! Installing it again.");
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Completed...");
+                Console.WriteLine("Downloading..");
+                string file = Directory.GetCurrentDirectory() + "/" + Path.GetFileName(download);
+                web.DownloadFileAsync(new System.Uri(download), file);
             }
+            Console.Clear();
+            Console.Title = "Updating - Done";
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("You can exit this tool now! - Updater created by Vanix#9999");
             Console.ReadLine();
-
         }
     }
 }
