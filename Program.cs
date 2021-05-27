@@ -25,10 +25,10 @@ namespace Updater
             }
             var web = new WebClient();
             string version = web.DownloadString("YOUR NEW VERSION LINK");
-            if (File.Exists("Atom Selfbot.exe"))
+            if (File.Exists("FILE NAME.exe"))
             {
                 string file = Directory.GetCurrentDirectory() + "/" + Path.GetFileName(download);
-                string current_version = AssemblyName.GetAssemblyName("Atom Selfbot.exe").Version.ToString();
+                string current_version = AssemblyName.GetAssemblyName("FILE NAME.exe").Version.ToString();
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"Newer version is {version}");
                 Console.WriteLine($"Current version is {current_version}");
